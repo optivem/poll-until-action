@@ -24,9 +24,14 @@ Write-Host ""
 $attempt = 0
 $conditionMet = $false
 
-# Resolve script path relative to the action directory
-$actionDir = Split-Path -Parent $PSCommandPath
-$scriptPath = Join-Path $actionDir $CheckScript
+# Resolve script path: relative to workspace (GITHUB_WORKSPACE) or use as absolute
+$workspace = $env:GITHUB_WORKSPACE
+if ([string]::IsNullOrEmpty($workspace)) { $workspace = Get-Location }
+$scriptPath = if ([System.IO.Path]::IsPathRooted($CheckScript)) {
+    $CheckScript
+} else {
+    Join-Path $workspace $CheckScript
+}
 
 if (-not (Test-Path $scriptPath)) {
     Write-Host "❌ Check script not found: $scriptPath" -ForegroundColor Red

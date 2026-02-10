@@ -3,7 +3,7 @@ description: 'Runs a check script repeatedly until condition is met or timeout'
 
 inputs:
   check-script:
-    description: 'Path to the check script (relative to action path, e.g., ./check-deployment-state.ps1)'
+    description: 'Path to the check script (relative to workspace, e.g. .github/scripts/check.ps1)'
     required: true
   script-args:
     description: 'Arguments to pass to the check script (space-separated)'
